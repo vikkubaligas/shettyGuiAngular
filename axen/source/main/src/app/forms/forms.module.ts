@@ -16,6 +16,7 @@ import {
 } from '@danielmoncada/angular-datetime-picker';
 import { ComponentsModule } from '../shared/components/components.module';
 import { SharedModule } from '../shared/shared.module';
+import { CheckoutModule } from 'paytm-blink-checkout-angular';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SharedModule } from '../shared/shared.module';
     NgxMaskPipe,
     ComponentsModule,
     SharedModule,
+    CheckoutModule
   ],
   providers: [provideNgxMask()],
 })
