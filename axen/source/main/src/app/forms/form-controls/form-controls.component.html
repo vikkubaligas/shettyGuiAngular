@@ -5,95 +5,138 @@
       <app-breadcrumb [title]="breadscrum.title" [items]="breadscrum.items" [active_item]="breadscrum.active">
       </app-breadcrumb>
     </div>
-    <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header">
-            <h2>Player Info</h2>
-          </div>
-          <div class="body">
-            <div class="example-container">
-              <mat-form-field class="example-full-width">
-                <mat-label>Name</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <mat-label>Phone</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <mat-label>Place</mat-label>
-                <input matInput>
-              </mat-form-field>
-              <br>
-              <mat-form-field class="example-full-width">
-                <mat-label>Role</mat-label>
-                <mat-select>
-                  <mat-option value="batsman">Batsman</mat-option>
-                  <mat-option value="bowler">Bowler</mat-option>
-                  <mat-option value="batting all rounder">Batting All rounder</mat-option>
-                  <mat-option value="bowling all rounder">Bowling All rounder</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <br>
-              <section class="example-section">
-                <label class="example-margin">Batting style</label>
-                <mat-radio-group [(ngModel)]="labelPosition">
-                  <mat-radio-button class="example-margin" value="right">Right</mat-radio-button>
-                  <mat-radio-button class="example-margin" value="left">Left</mat-radio-button>
-                </mat-radio-group>
-              </section>
-              <br>
-              <section class="example-section">
-                <label class="example-margin">Bowling style</label>
-                <mat-radio-group [(ngModel)]="labelPosition">
-                  <mat-radio-button class="example-margin" value="right">Right</mat-radio-button>
-                  <mat-radio-button class="example-margin" value="left">Left</mat-radio-button>
-                </mat-radio-group>
-              </section>
-              <br>
-              <mat-form-field class="example-full-width">
-                <mat-label>T-Shirt size</mat-label>
-                <mat-select>
-                  <mat-option value="xs">XS</mat-option>
-                  <mat-option value="s">S</mat-option>
-                  <mat-option value="m">M</mat-option>
-                  <mat-option value="l">L</mat-option>
-                  <mat-option value="xl">XL</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="body">
-            <div class="example-container">
-              <form [formGroup]="fileUploadForm">
-                <div class="row">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
-                    <label>Aadhar Pic</label>
-                    <app-file-upload formControlName="uploadFile"></app-file-upload>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
-                    <label>Player Pic</label>
-                    <app-file-upload formControlName="uploadFile"></app-file-upload>
-                  </div>
-                </div>
-              </form>
+    <form [formGroup]="basicDetailsGroup!">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="header">
+              <h2>Player Info</h2>
+            </div>
+            <div class="body">
+              <div class="example-container">
+                <mat-form-field class="example-full-width">
+                  <mat-label>Name</mat-label>
+                  <input matInput formControlName="name" required>
+                  <mat-icon matSuffix>face</mat-icon>
+                  <mat-error *ngIf="basicDetailsGroup?.get('name')?.hasError('required')">
+                    Name is required
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="phone" type="number" required>
+                  <mat-icon matSuffix>phone</mat-icon>
+                  <mat-error *ngIf="basicDetailsGroup?.get('phone')?.hasError('required')">
+                    Phone is required
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Place</mat-label>
+                  <input matInput formControlName="place" required>
+                  <mat-icon matSuffix>location</mat-icon>
+                  <mat-error *ngIf="basicDetailsGroup?.get('place')?.hasError('required')">
+                    Place is required
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Role</mat-label>
+                  <mat-select formControlName="role" required>
+                    <mat-option value="batsman">Batsman</mat-option>
+                    <mat-option value="bowler">Bowler</mat-option>
+                    <mat-option value="batting all rounder">Batting All rounder</mat-option>
+                    <mat-option value="bowling all rounder">Bowling All rounder</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="basicDetailsGroup.get('role')?.hasError('required')">
+                    Select role
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <section class="example-section">
+                  <label class="example-margin">Batting style</label>
+                  <mat-radio-group [(ngModel)]="battingStyleLabel" formControlName="battingStyle" required>
+                    <mat-radio-button class="example-margin" value="right">Right</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="left">Left</mat-radio-button>
+                    <mat-error *ngIf="basicDetailsGroup.get('battingStyle')?.hasError('required')">
+                      Select batting style
+                    </mat-error>
+                  </mat-radio-group>
+                </section>
+                <br>
+                <section class="example-section">
+                  <label class="example-margin">Bowling style</label>
+                  <mat-radio-group [(ngModel)]="bowlingStyleLabel" formControlName="bowlingStyle" required>
+                    <mat-radio-button class="example-margin" value="right">Right</mat-radio-button>
+                    <mat-radio-button class="example-margin" value="left">Left</mat-radio-button>
+                    <mat-error *ngIf="basicDetailsGroup.get('bowlingStyle')?.hasError('required')">
+                      Select bowling style
+                    </mat-error>
+                  </mat-radio-group>
+                </section>
+                <br>
+                <mat-form-field class="example-full-width">
+                  <mat-label>T-Shirt size</mat-label>
+                  <mat-select formControlName="tshirt" required>
+                    <mat-option value="xs">XS</mat-option>
+                    <mat-option value="s">S</mat-option>
+                    <mat-option value="m">M</mat-option>
+                    <mat-option value="l">L</mat-option>
+                    <mat-option value="xl">XL</mat-option>
+                    <mat-option value="xl">XXL</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
+    <form [formGroup]="basicDetailsGroup!">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="body">
+              <div class="example-container">
+                  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
+                      <label>Aadhar Pic</label>
+                      <!-- <app-file-upload formControlName="aadharPic"></app-file-upload> -->
+                      <div class="file-drop-area">
+                        <mat-icon>attach_file</mat-icon>
+                        <span>{{fileAadhar ? fileAadhar.name : ' Select file' }}</span>
+                        <input class="file-input" type="file" formControlName="aadharPic" (change)="onChangeAadhar($event)" #fileUpload />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
+                      <label>Player Pic</label>
+                      <!-- <app-file-upload formControlName="playerPic"></app-file-upload> -->
+                      <div class="file-drop-area">
+                        <mat-icon>attach_file</mat-icon>
+                        <span>{{filePlayer ? filePlayer.name : ' Select file' }}</span>
+                        <input class="file-input" type="file" formControlName="playerPic" (change)="onChangePlayer($event)" #fileUpload />
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+      <button class="btn-space" [disabled]="!(basicDetailsGroup.valid)" mat-raised-button
+                        (click)="confirmAdd()"
+                        color="primary">Proceed to pay</button>
+
+ 
+
+   
   </div>
 </section>

@@ -1,0 +1,12 @@
+/home2/shettyse/paytm/app.js:76
+  const aadhar_url = req.files.aadharPic[0].path;
+                               ^
+
+TypeError: Cannot read properties of undefined (reading 'aadharPic')
+    at /home2/shettyse/paytm/app.js:76:32
+    at Layer.handle [as handle_request] (/home2/shettyse/nodevenv/paytm/20/lib/node_modules/express/lib/router/layer.js:95:5)
+    at next (/home2/shettyse/nodevenv/paytm/20/lib/node_modules/express/lib/router/route.js:144:13)
+    at validateForm (/home2/shettyse/paytm/app.js:64:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+Node.js v20.3.1
