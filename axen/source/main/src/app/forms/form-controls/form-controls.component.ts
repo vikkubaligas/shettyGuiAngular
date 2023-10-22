@@ -49,61 +49,48 @@ export class FormControlsComponent {
 
   confirmAdd(){
     const rawData= this.basicDetailsGroup.getRawValue();
+    if(this.fileAadhar != null && this.filePlayer != null){
+      // @ts-ignore
 
 
-      const formData = new FormData();
 
-      formData.append("name",rawData["name"]);
-      formData.append("phone",rawData["phone"]);
-      formData.append("place",rawData["place"]);
-      formData.append("role",rawData["role"]);
-      formData.append("bat_style",rawData["battingStyle"]);
-      formData.append("bowl_style",rawData["bowlingStyle"]);
-      formData.append("tshirt",rawData["tshirt"]);
 
-      if(this.fileAadhar != null && this.filePlayer != null){
-        formData.append("aadharPic",this.fileAadhar);
-        formData.append("playerPic",this.filePlayer);
+      this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData).subscribe(
+        event => {
 
-        rawData["aadharPic"] = this.fileAadhar;
-        rawData["playerPic"] = this.filePlayer;
+          if (event.type === HttpEventType.DownloadProgress) {
+            console.log("Download progress event", event);
+          }
 
-        console.log(rawData)
+          if (event.type === HttpEventType.UploadProgress) {
+            console.log("Upload progress event", event);
+          }
 
-        //console.log(formData);
-        // this.httpClient.post("http://localhost:3000/", rawData).subscribe(
-        //   (response: any) => {
-        //       console.log("response received",response);
-        //
-        //
-        //     const rid = response["ref_id"];
-        //     const phone = response["phone"];
-        //
-        //     const res = response["res"];
-        //
-        //     if (res == 2) {
-        //       window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
-        //     } else {
-        //       console.log("response error");
-        //     }
-        //   },
-        //   (error) => {
-        //     console.error('File upload failed:', error);
-        //
-        //   }
-        // );
+          if (event.type === HttpEventType.Response) {
+            const response = event.body;
+            console.log("response received",response);
 
-      }
+
+            // @ts-ignore
+            const rid = response["ref_id"];
+            // @ts-ignore
+            const phone = response["phone"];
+
+            // @ts-ignore
+            const res = response["res"];
+
+            if (res == 2) {
+              window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
+            } else {
+              console.log("response error");
+            }
+          }
+
+        }
+      );
+    }
+
   }
-
-  title = 'File-Upload-Save';
-  // @ts-ignore
-  selectedFileAadhar: File;
-  // @ts-ignore
-  selectedFilePlayer: File;
-  progress: { percentage: number } = { percentage: 0 };
-  selectedFile = null;
-  changeImage = false;
 
   constructor(fb: UntypedFormBuilder,private uploadService: UploadFileService) {
     this.basicDetailsGroup = fb.group({
@@ -117,39 +104,6 @@ export class FormControlsComponent {
         aadharPic:['', [Validators.required]],
         playerPic:['', [Validators.required]],
     });
-  }
-
-  downloadFile(){
-    const link = document.createElement('a');
-    link.setAttribute('target', '_blank');
-    link.setAttribute('href', '_File_Saved_Path');
-    link.setAttribute('download', 'file_name.pdf');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  }
-
-  upload() {
-    this.progress.percentage = 0;
-    this.uploadService.pushFileToStorage(this.selectedFileAadhar,this.selectedFilePlayer).subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress) {
-          // @ts-ignore
-          this.progress.percentage = Math.round(100 * event.loaded / event.total);
-          console.log(this.progress)
-        } else if (event instanceof HttpResponse) {
-          alert('File Successfully Uploaded');
-        }
-      // this.selectedFilePlayer = undefined;
-      // this.selectedFileAadhar = undefined;
-      }
-    );
-  }
-  selectFileAadhar(event:any) {
-    this.selectedFileAadhar = event.target.files[0];
-  }
-
-  selectFilePlayer(event:any) {
-    this.selectedFilePlayer = event.target.files[0];
   }
 
 }

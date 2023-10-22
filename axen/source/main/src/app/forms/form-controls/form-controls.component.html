@@ -109,7 +109,7 @@
                       <div class="file-drop-area">
                         <mat-icon>attach_file</mat-icon>
                         <span>{{fileAadhar ? fileAadhar.name : ' Select file' }}</span>
-                        <input class="file-input" type="file" formControlName="aadharPic" id="customFileAadhar" (change)="selectFileAadhar($event)" />
+                        <input class="file-input" type="file" formControlName="aadharPic" (change)="onChangeAadhar($event)" />
                       </div>
                     </div>
                   </div>
@@ -120,7 +120,7 @@
                       <div class="file-drop-area">
                         <mat-icon>attach_file</mat-icon>
                         <span>{{filePlayer ? filePlayer.name : ' Select file' }}</span>
-                        <input class="file-input" type="file" formControlName="playerPic" id="customFilePlayer" (change)="selectFilePlayer($event)" />
+                        <input class="file-input" type="file" formControlName="playerPic" (change)="onChangePlayer($event)" />
                       </div>
                     </div>
                   </div>
@@ -132,7 +132,7 @@
     </form>
 
       <button class="btn-space" [disabled]="!(basicDetailsGroup.valid)" mat-raised-button
-                        (click)="upload()"
+                        (click)="confirmAdd()"
                         color="primary">Proceed to pay</button>
 
 
