@@ -9,7 +9,7 @@
       <div class="container text-center">
       	<div class="shadow p-3 mb-5 bg-white rounded">
 		<% if(verifySignature=="true"){ %>
-				<h4 class="text-success text-left">Checksum is verified. Transaction details are below:</h4>	
+				<h4 class="text-success text-left">Transaction details:</h4>
 				<table class="table table-bordered">
             <% Object.keys(data).forEach(function(key) { %>
                <tr><td><%= key %></td><td><%= data[key] %></td></tr>

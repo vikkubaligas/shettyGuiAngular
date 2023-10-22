@@ -22,6 +22,7 @@ export class FormControlsComponent {
   bowlingStyleLabel: 'Right' | 'Left' = 'Right';
   fileAadhar: File | null = null;
   filePlayer: File | null = null;
+  currentProgress = 0
 
   breadscrums = [
     {
@@ -53,8 +54,9 @@ export class FormControlsComponent {
       // @ts-ignore
 
 
+      this.currentProgress = 0
 
-
+      // @ts-ignore
       this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData).subscribe(
         event => {
 
@@ -64,6 +66,8 @@ export class FormControlsComponent {
 
           if (event.type === HttpEventType.UploadProgress) {
             console.log("Upload progress event", event);
+            // @ts-ignore
+            this.currentProgress = Math.round(100 * event.loaded / event.total);
           }
 
           if (event.type === HttpEventType.Response) {

@@ -130,10 +130,30 @@
         </div>
       </div>
     </form>
+    <div class="row">
+      <div class="col align-center">
+        <div class="row clearfix">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+              <div class="body">
+                <div *ngIf="currentProgress" class="progress my-3">
+                  <mat-progress-bar mode="determinate" value="{{currentProgress}}"></mat-progress-bar>
+                </div>
 
-      <button class="btn-space" [disabled]="!(basicDetailsGroup.valid)" mat-raised-button
+                <br>
+                <button class="btn-space" [disabled]="!(basicDetailsGroup.valid)" mat-raised-button
                         (click)="confirmAdd()"
                         color="primary">Proceed to pay</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
 
 
 

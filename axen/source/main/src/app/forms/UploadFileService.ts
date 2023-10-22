@@ -17,6 +17,7 @@ export class UploadFileService {
     data.append("bat_style",rawData["battingStyle"]);
     data.append("bowl_style",rawData["bowlingStyle"]);
     data.append("tshirt",rawData["tshirt"]);
+    //https://shettysempire.co.in/pay/upload-photos
     const newRequest = new HttpRequest('POST', 'https://shettysempire.co.in/pay/upload-photos', data, {
       reportProgress: true,
       responseType: 'json'
