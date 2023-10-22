@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
-  UntypedFormControl,
   UntypedFormGroup,
-  FormGroupDirective,
-  NgForm,
   Validators,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { ThemePalette } from '@angular/material/core';
-import { CheckoutService } from 'paytm-blink-checkout-angular';
-import { HttpClient,HttpHeaders } from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
+import { HttpResponse, HttpEventType } from '@angular/common/http';
+import { UploadFileService } from '../UploadFileService';
+
 
 
 @Component({
@@ -52,7 +49,7 @@ export class FormControlsComponent {
 
   confirmAdd(){
     const rawData= this.basicDetailsGroup.getRawValue();
-    
+
 
       const formData = new FormData();
 
@@ -68,35 +65,47 @@ export class FormControlsComponent {
         formData.append("aadharPic",this.fileAadhar);
         formData.append("playerPic",this.filePlayer);
 
+        rawData["aadharPic"] = this.fileAadhar;
+        rawData["playerPic"] = this.filePlayer;
 
-        console.log(formData);
-        this.httpClient.post("https://shettysempire.co.in/pay/upload-photos/", formData).subscribe(
-          (response: any) => {
-              console.log(response);
+        console.log(rawData)
 
-
-            const rid = response["ref_id"];
-            const phone = response["phone"];
-            
-            const res = response["res"];
-            
-            if (res == 2) {
-              window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
-            } else {
-              console.log("response error");
-            }
-          },
-          (error) => {
-            console.error('File upload failed:', error);
-            
-          }
-        );
+        //console.log(formData);
+        // this.httpClient.post("http://localhost:3000/", rawData).subscribe(
+        //   (response: any) => {
+        //       console.log("response received",response);
+        //
+        //
+        //     const rid = response["ref_id"];
+        //     const phone = response["phone"];
+        //
+        //     const res = response["res"];
+        //
+        //     if (res == 2) {
+        //       window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
+        //     } else {
+        //       console.log("response error");
+        //     }
+        //   },
+        //   (error) => {
+        //     console.error('File upload failed:', error);
+        //
+        //   }
+        // );
 
       }
   }
 
-  
-  constructor(fb: UntypedFormBuilder,public httpClient: HttpClient,) {
+  title = 'File-Upload-Save';
+  // @ts-ignore
+  selectedFileAadhar: File;
+  // @ts-ignore
+  selectedFilePlayer: File;
+  progress: { percentage: number } = { percentage: 0 };
+  selectedFile = null;
+  changeImage = false;
+
+  constructor(fb: UntypedFormBuilder,private uploadService: UploadFileService) {
     this.basicDetailsGroup = fb.group({
         name:['', [Validators.required]],
         phone:['', [Validators.required]],
@@ -109,5 +118,38 @@ export class FormControlsComponent {
         playerPic:['', [Validators.required]],
     });
   }
- 
+
+  downloadFile(){
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', '_File_Saved_Path');
+    link.setAttribute('download', 'file_name.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  upload() {
+    this.progress.percentage = 0;
+    this.uploadService.pushFileToStorage(this.selectedFileAadhar,this.selectedFilePlayer).subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          // @ts-ignore
+          this.progress.percentage = Math.round(100 * event.loaded / event.total);
+          console.log(this.progress)
+        } else if (event instanceof HttpResponse) {
+          alert('File Successfully Uploaded');
+        }
+      // this.selectedFilePlayer = undefined;
+      // this.selectedFileAadhar = undefined;
+      }
+    );
+  }
+  selectFileAadhar(event:any) {
+    this.selectedFileAadhar = event.target.files[0];
+  }
+
+  selectFilePlayer(event:any) {
+    this.selectedFilePlayer = event.target.files[0];
+  }
+
 }
