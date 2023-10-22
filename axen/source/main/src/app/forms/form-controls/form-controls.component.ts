@@ -1,13 +1,7 @@
-import { Component } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-import {HttpClient} from "@angular/common/http";
-import { HttpResponse, HttpEventType } from '@angular/common/http';
-import { UploadFileService } from '../UploadFileService';
-
+import {Component} from '@angular/core';
+import {UntypedFormBuilder, UntypedFormGroup, Validators,} from '@angular/forms';
+import {HttpEventType} from "@angular/common/http";
+import {UploadFileService} from '../UploadFileService';
 
 
 @Component({
@@ -85,8 +79,9 @@ export class FormControlsComponent {
 
             if (res == 2) {
               window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
-            } else {
-              console.log("response error");
+            } else if(res ==3) {
+              // @ts-ignore
+              window.location.href = response["redirect"];
             }
           }
 
