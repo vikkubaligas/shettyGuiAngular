@@ -109,6 +109,25 @@ export class FormControlsComponent {
       currentPlace:['',],
       contactPhone:['', ],
       contactName:['', ],
+      isKarnataka:[]
+    });
+
+    // @ts-ignore
+    this.basicDetailsGroup.get('isKarnataka').valueChanges.subscribe(val => {
+      console.log("on value change",this.iskarnataka, val)
+      if (val) {
+        this.basicDetailsGroup.controls['contactName'].setValidators([Validators.required]);
+        this.basicDetailsGroup.controls['contactPhone'].setValidators([Validators.required]);
+        this.basicDetailsGroup.controls['currentPlace'].setValidators([Validators.required]);
+      } else {
+        this.basicDetailsGroup.controls['contactName'].clearValidators();
+        this.basicDetailsGroup.controls['contactPhone'].clearValidators();
+        this.basicDetailsGroup.controls['currentPlace'].clearValidators();
+
+      }
+      this.basicDetailsGroup.controls['contactName'].updateValueAndValidity();
+      this.basicDetailsGroup.controls['contactPhone'].updateValueAndValidity();
+      this.basicDetailsGroup.controls['currentPlace'].updateValueAndValidity();
     });
   }
 

@@ -134,9 +134,11 @@
 
     </form>
     <br>
+    <form [formGroup]="basicDetailsGroup!">
     <section class="example-section">
-      <mat-checkbox class="example-margin" [(ngModel)]="iskarnataka">Not from Karnataka?</mat-checkbox>
+      <mat-checkbox formControlName="isKarnataka" class="example-margin" [(ngModel)]="iskarnataka">Not from Karnataka?</mat-checkbox>
     </section>
+    </form>
     <br>
     <div *ngIf="iskarnataka">
     <form [formGroup]="basicDetailsGroup!">
@@ -156,7 +158,7 @@
 
                     <mat-form-field class="example-full-width">
                       <mat-label>Contact Person Name</mat-label>
-                      <input matInput formControlName="contactName" >
+                      <input matInput formControlName="contactName">
                       <mat-error *ngIf="basicDetailsGroup?.get('contactName')?.hasError('required')">
                         Contact person Name is required
                       </mat-error>
@@ -165,7 +167,7 @@
                     <br>
                     <mat-form-field class="example-full-width">
                       <mat-label>Contact Person Phone</mat-label>
-                      <input matInput formControlName="contactPhone" type="number" >
+                      <input matInput formControlName="contactPhone" type="number">
                       <mat-icon matSuffix>phone</mat-icon>
                       <mat-error *ngIf="basicDetailsGroup?.get('contactPhone')?.hasError('required')">
                         Contact person phone is required
