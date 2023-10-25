@@ -17,10 +17,12 @@ export class FormControlsComponent {
   fileAadhar: File | null = null;
   filePlayer: File | null = null;
   currentProgress = 0
+  iskarnataka = false;
+  isReq = "required"
 
   breadscrums = [
     {
-      title: 'Bunts Empire Trophy Registration',
+      title: 'Player Registration',
       items: [],
       active: '',
     },
@@ -51,7 +53,7 @@ export class FormControlsComponent {
       this.currentProgress = 0
 
       // @ts-ignore
-      this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData).subscribe(
+      this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData,this.iskarnataka).subscribe(
         event => {
 
           if (event.type === HttpEventType.DownloadProgress) {
@@ -102,6 +104,11 @@ export class FormControlsComponent {
         tshirt:['', [Validators.required]],
         aadharPic:['', [Validators.required]],
         playerPic:['', [Validators.required]],
+        jersy:['', [Validators.required]],
+        jersyNumber:['', [Validators.required]],
+      currentPlace:['',],
+      contactPhone:['', ],
+      contactName:['', ],
     });
   }
 
