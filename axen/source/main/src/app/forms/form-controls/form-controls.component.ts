@@ -18,7 +18,7 @@ export class FormControlsComponent {
   filePlayer: File | null = null;
   currentProgress = 0
   iskarnataka = false;
-  isReq = "required"
+  isAgreed = false
 
   breadscrums = [
     {
