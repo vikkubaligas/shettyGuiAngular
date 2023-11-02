@@ -16,13 +16,46 @@
             </div>
             <div class="body">
               <div class="example-container">
+                <p><strong>Player Registration Fee: ₹500 INR</strong></p>
+                <p>Follow these steps to complete your registration:</p>
+
+                <ol>
+                  <li><strong>Step 1:</strong> Make a payment of ₹500 INR by scanning the below QR code or using the UPI ID:</li>
+<!--                  <img mat-card-image src="assets/images/qr-code.jpeg" alt="QR Code">-->
+
+                  <br>
+                  <li><strong>Step 2:</strong> Take a screenshot of the payment confirmation and save it.</li>
+                  <br>
+                  <li><strong>Step 3:</strong> Copy the transaction ID to fill in later.</li>
+                  <br>
+                  <li><strong>Step 4:</strong> Upload the screenshot of your payment confirmation along with other details in th ebext page:</li>
+                </ol>
 
               </div>
             </div>
           </div>
         </div>
       </div>
-<div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+      <mat-card>
+        <img mat-card-image src="assets/images/qr-code.jpeg">
+        <mat-card-content>
+          <br>
+          <p><strong>UPI ID: </strong> 919272642@paytm</p>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+      </mat-card>
+    </div>
+    <br><br>
+    <p><strong>Terms and Conditions:</strong></p>
+    Registration for the tournament will be officially confirmed once a valid transaction has been successfully processed.
+    <br><br>
+    <form [formGroup]="basicDetailsGroup!">
+      <section class="example-section">
+        <mat-checkbox formControlName="isAgreed" class="example-margin" [(ngModel)]="isAgreed">I agree to the terms and conditions.</mat-checkbox>
+      </section>
+    </form>
+    <div *ngIf="isAgreed">
 
   <form [formGroup]="basicDetailsGroup!">
       <div class="row">
@@ -231,6 +264,26 @@
                       </div>
                     </div>
                   </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-5">
+                    <label>Payment Screenshot</label>
+                    <!-- <app-file-upload formControlName="playerPic"></app-file-upload> -->
+                    <div class="file-drop-area">
+                      <mat-icon>attach_file</mat-icon>
+                      <span>{{filePayment ? filePayment.name : ' Select file' }}</span>
+                      <input class="file-input" type="file" formControlName="paymentPic" (change)="onChangePayment($event)" />
+                    </div>
+                  </div>
+                </div>
+
+                <mat-form-field class="example-full-width">
+                  <mat-label>Payment Transaction ID</mat-label>
+                  <input matInput formControlName="transactionId">
+                  <mat-error *ngIf="basicDetailsGroup?.get('transactionId')?.hasError('required')">
+                    Transaction ID is required
+                  </mat-error>
+                </mat-form-field>
+
               </div>
             </div>
           </div>
@@ -250,7 +303,7 @@
                 <br>
                 <button class="btn-space" [disabled]="!(basicDetailsGroup.valid)" mat-raised-button
                         (click)="confirmAdd()"
-                        color="primary">Proceed to pay</button>
+                        color="primary">Submit</button>
               </div>
             </div>
           </div>

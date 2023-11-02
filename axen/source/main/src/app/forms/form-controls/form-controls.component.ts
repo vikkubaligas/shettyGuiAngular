@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {UntypedFormBuilder, UntypedFormGroup, Validators,} from '@angular/forms';
 import {HttpEventType} from "@angular/common/http";
 import {UploadFileService} from '../UploadFileService';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class FormControlsComponent {
   bowlingStyleLabel: 'Right' | 'Left' = 'Right';
   fileAadhar: File | null = null;
   filePlayer: File | null = null;
+  filePayment: File | null = null;
   currentProgress = 0
   iskarnataka = false;
   isAgreed = false
@@ -44,16 +46,33 @@ export class FormControlsComponent {
     }
   }
 
+  onChangePayment(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.filePayment = file;
+    }
+  }
+
+  showCustomPosition() {
+    Swal.fire({
+      icon: 'success',
+      title: 'Player Info saved!',
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+
   confirmAdd(){
     const rawData= this.basicDetailsGroup.getRawValue();
-    if(this.fileAadhar != null && this.filePlayer != null){
+    if(this.fileAadhar != null && this.filePlayer != null && this.filePayment != null){
       // @ts-ignore
 
 
       this.currentProgress = 0
 
       // @ts-ignore
-      this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData,this.iskarnataka).subscribe(
+      this.uploadService.pushFileToStorage(this.fileAadhar,this.filePlayer,rawData,this.iskarnataka,this.filePayment).subscribe(
         event => {
 
           if (event.type === HttpEventType.DownloadProgress) {
@@ -80,7 +99,7 @@ export class FormControlsComponent {
             const res = response["res"];
 
             if (res == 2) {
-              window.location.href = "https://shettysempire.co.in/pay?orderId="+rid+"&phone="+phone;
+              this.showCustomPosition()
             } else if(res ==3) {
               // @ts-ignore
               window.location.href = response["redirect"];
@@ -104,12 +123,15 @@ export class FormControlsComponent {
         tshirt:['', [Validators.required]],
         aadharPic:['', [Validators.required]],
         playerPic:['', [Validators.required]],
+      paymentPic:['', [Validators.required]],
         jersy:['', [Validators.required]],
         jersyNumber:['', [Validators.required]],
       currentPlace:['',],
       contactPhone:['', ],
       contactName:['', ],
-      isKarnataka:[]
+      isKarnataka:[],
+      isAgreed:[],
+      transactionId:['', [Validators.required]],
     });
 
     // @ts-ignore

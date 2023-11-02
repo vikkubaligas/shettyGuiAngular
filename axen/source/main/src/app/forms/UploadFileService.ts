@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'})
 export class UploadFileService {
   constructor(private https: HttpClient) { }
-  pushFileToStorage(fileAadhar: File,filePlayer:File, rawData: never, isKarnataka:boolean): Observable<HttpEvent<{}>> {
+  pushFileToStorage(fileAadhar: File,filePlayer:File, rawData: never, isKarnataka:boolean, filePayment:File): Observable<HttpEvent<{}>> {
     const data: FormData = new FormData();
     data.append('aadharPic', fileAadhar);
     data.append('playerPic', filePlayer);
+    data.append('paymentPic', filePayment);
 
     data.append("name",rawData["name"]);
     data.append("phone",rawData["phone"]);
@@ -22,6 +23,7 @@ export class UploadFileService {
     data.append("contactPhone",rawData["contactPhone"]);
     data.append("currentPlace",rawData["currentPlace"]);
     data.append("contactPerson",rawData["contactName"]);
+    data.append("transactionId",rawData["transactionId"]);
     data.append("isKarnataka",isKarnataka?"1":"0");
 
 
